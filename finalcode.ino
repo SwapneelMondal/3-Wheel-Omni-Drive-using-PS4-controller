@@ -1,6 +1,6 @@
 #include <USBHost_t36.h>
 
-
+//Pinouts
 int pwm1 = 23;
 int dir1 = 21;
 
@@ -46,11 +46,12 @@ void setup() {
 void loop() {
   myusb.Task();  
 
-  if (joystick.available()) {               
+  if (joystick.available()) {  
+    //mapping joysticks
     int lx = map(joystick.getAxis(1),0,255,-127,127);        
     int ly = map(joystick.getAxis(2),0,255,-127,127);
     int rx = map(joystick.getAxis(3),0,255,-127,127); 
-
+    //deadzone
     if (abs (lx) < deadZone) lx = 0;
     if (abs (ly) < deadZone) ly = 0;   
     if (abs (rx) < deadZone) rx = 0;            
@@ -65,7 +66,7 @@ void loop() {
      Vx = -((float)ly/127.0);
      Vy = -((float)lx/127.0);
      w = ((float)rx/127.0);
-
+     //Inverse Kinematics
      float w1 = ((-0.866 * Vx - 0.5 * Vy + L * w) / r);
      float w2 = (( 0.866 * Vx - 0.5 * Vy + L * w) / r);
      float w3 = (( 0.0   * Vx + 1.0 * Vy + L * w) / r);     
@@ -84,7 +85,7 @@ void loop() {
 
   }
 }
-
+//set motor function for individual wheels
 void setMotor(int pwm,int dir,float speed){
 
   int pwmVal = mapFloatToInt(abs(speed) * 1000, 0, maxSpeed * 10000, 0, 40);
@@ -103,6 +104,7 @@ void setMotor(int pwm,int dir,float speed){
   }
   Serial.println(pwmVal);
 }
+// map function for float
 int mapFloatToInt(float x, float in_min, float in_max, float out_min, float out_max) {
     float mapped = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     return (int)mapped;
