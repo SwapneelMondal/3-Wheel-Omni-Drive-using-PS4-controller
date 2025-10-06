@@ -42,5 +42,23 @@ This setup allows the robot to move in any direction without needing to rotate f
 - **Right joystick (RX)** → controls **rotational speed (ω)**  
 
 The kinematic model converts these joystick values into individual wheel angular velocities (`w1`, `w2`, `w3`):
+w1 = (-0.866 * Vx - 0.5 * Vy + L * w) / r
+w2 = ( 0.866 * Vx - 0.5 * Vy + L * w) / r
+w3 = ( 0.0 * Vx + 1.0 * Vy + L * w) / r
 
+Where:
+- `L` = distance from the robot's center to each wheel (0.315 m)
+- `r` = radius of each wheel (0.1 m)
+- `Vx`, `Vy`, and `w` are derived from joystick input.
+
+---
+
+## 🧠 Software & Functionality  
+
+### 📘 Key Features
+- Wireless **Bluetooth connection** with PS4 controller  
+- Real-time reading of joystick values  
+- **Dead zone filtering** to prevent drift  
+- **PWM speed mapping** for smooth motor control  
+- Serial output for debugging and performance analysis  
 
